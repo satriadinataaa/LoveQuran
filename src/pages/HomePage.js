@@ -18,48 +18,53 @@ const HomePage = ({navigation}) => {
       .then(json => {
       
       setData(json.data);
-     
+      setLoading(false);
       });
      
   }
   useEffect(() => {
-    fetchData();
-    return()=> {
-      setLoading(false)
-    }
-  },[])
+    fetchData();    
+  },[data])
   
   return (
     <View style={{flex:1,backgroundColor:'white'}}> 
-      <View style={{height:hp('20%') }}>
+      <View style={{height:hp('15%') }}>
         <Text style={styles.hai}>Hai, udah ngaji hari ini?</Text>
       </View>
       <View style={{height:hp('70%') , backgroundColor:'white'}}>
 
         {/* Daftar Surah */}
         <View>
-          <View style={{flexDirection:'row',backgroundColor:'#FF9052' , width:wp('90%') , height:hp('5%') , borderTopRightRadius:50,borderBottomRightRadius:50}} >
+          <View style={{flexDirection:'row',backgroundColor:'#FF9052' ,  height:hp('5%') , marginLeft:20,marginRight:20,borderTopLeftRadius:10,borderTopRightRadius:10}} >
             <View style={{flex:2.5}}><Text style={styles.textTitle}>Daftar Surah</Text></View>
-            {  isLoading ? (<Text style={{marginTop:hp('5%'),marginLeft:20}}></Text>) :( 
-            <View style={{flex:1,alignItem:'center',justifyContent:'center'}}><TouchableOpacity onPress={()=> navigation.navigate('SemuaSurah',{
-              surah:data
-            })}><Text style={{color:'white',textDecorationLine:'underline',fontFamily:'Montserrat-Regular'}}>Lihat Semua</Text></TouchableOpacity></View>)}
+          
           </View>
-          <View style={{backgroundColor:'#FBEDED' , width:wp('85%'), height:hp('20%'), borderBottomRightRadius:30}}> 
-            {  isLoading ? (<Text style={{marginTop:hp('5%'),marginLeft:20}}>Mohon Tunggu</Text>) : <FlatList 
+          <View style={{backgroundColor:'#FBEDED' ,marginLeft:20,marginRight:20}}> 
+            {  isLoading ? (<Text style={{marginTop:hp('5%'),marginLeft:20,marginRight:20,marginBottom:50}}>Mohon Tunggu</Text>) : <FlatList 
               data={data}
-              showsHorizontalScrollIndicator={false}
-              horizontal
+              showsVerticalScrollIndicator={false}
               keyExtractor = {({number},index) => number }
               renderItem = {({item}) => (
-                <TouchableOpacity onPress={()=>{navigation.navigate('SurahPage',{
+              <>
+                <TouchableOpacity  style={{marginHorizontal:20,marginVertical:20}} onPress={()=>{navigation.navigate('SurahPage',{
                   id:item.number
                 })}}>
-                  <View style={{width:wp('25%') }}> 
-                    <Image style={{height:hp('10%') , width:wp('20%'),alignSelf:'center',marginTop:hp('4'),marginBottom:hp('0.5%')}}source={require('../assets/quran.png')}/>
-                    <Text style={{textAlign:'center'}}>{item.name.transliteration.id}</Text>
+                  <View style={{flexDirection:'row'}}> 
+                    <View style={{backgroundColor:'#FF9052',height:30,width:30,borderRadius:30/2,alignItems:'center',justifyContent:'center'}}> 
+                      <Text style={{textAlign:'center',color:'white',padding:4,fontFamily:'Montserrat-SemiBold'}}>{item.number}</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                      <Text style={{marginLeft:20,textAlign:'left',fontSize:16,alignSelf:'flex-start',fontFamily:'Montserrat-SemiBold'}}>{item.name.transliteration.id}</Text>
+                      <Text style={{marginLeft:20,textAlign:'left',fontSize:12,alignSelf:'flex-start',fontFamily:'Montserrat-SemiBold',color:'grey'}}>{item.revelation.id}</Text>
+                    </View>
+                    <View>
+                      <Text style={{ fontFamily:'sans-serif',fontSize:24,textAlign:'right',alignSelf:'flex-end'}}>{item.name.short}</Text>
+                    </View>
                   </View>
                 </TouchableOpacity>
+                <View style={{borderBottomWidth:1,marginHorizontal:10,marginBottom:5,borderBottomColor:'#d6d5d2'}}></View>
+                </>             
+
               ) }
             />
             
@@ -69,44 +74,7 @@ const HomePage = ({navigation}) => {
           </View>
         </View>
 
-        {/* Surah Random */}
-        <View style={{marginTop:25}}>
-          <View style={{flexDirection:'row',backgroundColor:'#FF9052' , width:wp('90%') , height:hp('5%') , borderTopRightRadius:50,borderBottomRightRadius:50}} >
-            <View style={{flex:3}}><Text style={styles.textTitle}>Kamu mau mulai dari sini?</Text></View>
-           
-          </View>
-          <View style={{backgroundColor:'#FBEDED' , width:wp('85%'), height:hp('20%'), borderBottomRightRadius:30}}> 
-            {  isLoading ? (<Text style={{marginTop:hp('5%'),marginLeft:20}}>Mohon Tunggu</Text>) : (
-              <View style={{flexDirection:'row'}}>
-               <TouchableOpacity onPress={()=>{navigation.navigate('SurahPage',{
-                id:data[Number1].number
-              })}}>
-                <View style={{width:wp('25%') }}> 
-                  <Image style={{height:hp('10%') , width:wp('20%'),alignSelf:'center',marginTop:hp('4'),marginBottom:hp('0.5%')}}source={require('../assets/quran.png')}/>
-                  <Text style={{textAlign:'center'}}>{data[Number1].name.transliteration.id}</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=>{navigation.navigate('SurahPage',{
-                id:data[Number2].number
-              })}}>
-                <View style={{width:wp('25%') }}> 
-                  <Image style={{height:hp('10%') , width:wp('20%'),alignSelf:'center',marginTop:hp('4'),marginBottom:hp('0.5%')}}source={require('../assets/quran.png')}/>
-                  <Text style={{textAlign:'center'}}>{data[Number2].name.transliteration.id}</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=>{navigation.navigate('SurahPage',{
-                id:data[Number3].number
-              })}}>
-                <View style={{width:wp('25%') }}> 
-                  <Image style={{height:hp('10%') , width:wp('20%'),alignSelf:'center',marginTop:hp('4'),marginBottom:hp('0.5%')}}source={require('../assets/quran.png')}/>
-                  <Text style={{textAlign:'center'}}>{data[Number3].name.transliteration.id}</Text>
-                </View>
-              </TouchableOpacity>
-              </View>
-            )
-            }
-          </View>
-        </View>
+      
        
       </View>
      

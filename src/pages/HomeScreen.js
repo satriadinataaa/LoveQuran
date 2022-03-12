@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 const HomeScreen = ({navigation}) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white'}}>
-     <Image  style={styles.tinyLogo}  source={require('../assets/loadingpage.png')}/>
+     <Image  style={styles.tinyLogo}  source={require('../assets/baca.png')}/>
      <View style={styles.buttonSection}>
        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomePage')}>
         <Text style={styles.text}>Mulai Sekarang</Text>
